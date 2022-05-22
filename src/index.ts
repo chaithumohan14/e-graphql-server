@@ -414,7 +414,7 @@ export function graphqlHTTP(options: Options): Middleware {
         response,
         graphiqlOptions,
         params,
-        parseToArray(formattedResult),
+        formattedResult,
       );
     }
 
