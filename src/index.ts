@@ -422,9 +422,13 @@ export function graphqlHTTP(options: Options): Middleware {
     // response.json method (express), use that directly.
     // Otherwise use the simplified sendResponse method.
     if (!pretty && typeof response.json === 'function') {
-      response.json(parseToArray(formattedResult));
+      response.json(parseToArray(formattedResult)[0][0]);
     } else {
-      const payload = JSON.stringify(parseToArray(formattedResult), null, pretty ? 2 : 0);
+      const payload = JSON.stringify(
+        parseToArray(formattedResult)[0][0],
+        null,
+        pretty ? 2 : 0,
+      );
       sendResponse(response, 'application/json', payload);
     }
 
