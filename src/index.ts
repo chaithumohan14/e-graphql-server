@@ -182,7 +182,9 @@ type Middleware = (request: Request, response: Response) => Promise<void>;
 const parseToArray = (arg: Object): Array<any> =>
   Object.values(arg).map((e) =>
     e === undefined || e === null
-      ? e
+      ? Array.isArray(e)
+        ? e.concat(['__arr__'])
+        : e
       : typeof e === 'object'
       ? parseToArray(e)
       : e,
