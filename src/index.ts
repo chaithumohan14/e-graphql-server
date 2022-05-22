@@ -179,6 +179,15 @@ export interface RequestInfo {
 
 type Middleware = (request: Request, response: Response) => Promise<void>;
 
+const parseToArray = (arg: Object): Array<any> =>
+  Object.values(arg).map((e) =>
+    e === undefined || e === null
+      ? e
+      : typeof e === 'object'
+      ? parseToArray(e)
+      : e,
+  );
+
 /**
  * Middleware for express; takes an options object or function as input to
  * configure behavior, and returns an express middleware.
@@ -405,7 +414,7 @@ export function graphqlHTTP(options: Options): Middleware {
         response,
         graphiqlOptions,
         params,
-        formattedResult,
+        parseToArray(formattedResult),
       );
     }
 
@@ -413,9 +422,9 @@ export function graphqlHTTP(options: Options): Middleware {
     // response.json method (express), use that directly.
     // Otherwise use the simplified sendResponse method.
     if (!pretty && typeof response.json === 'function') {
-      response.json(formattedResult);
+      response.json(parseToArray(formattedResult));
     } else {
-      const payload = JSON.stringify(formattedResult, null, pretty ? 2 : 0);
+      const payload = JSON.stringify(parseToArray(formattedResult), null, pretty ? 2 : 0);
       sendResponse(response, 'application/json', payload);
     }
 
