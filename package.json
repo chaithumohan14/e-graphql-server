@@ -110,6 +110,6 @@
     "ws": "5.2.2"
   },
   "peerDependencies": {
-    "graphql": "^14.7.0 || ^15.3.0"
+    "graphql": "^16.5.0"
   }
 }
