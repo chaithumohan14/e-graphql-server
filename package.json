@@ -1,10 +1,10 @@
 {
   "name": "e-graphql-server",
-  "version": "0.12.4",
+  "version": "0.12.5",
   "description": "Production ready E-GraphQL HTTP middleware.",
   "license": "MIT",
   "private": false,
-  "main": "index.js",
+  "main": "npmDist/index.js",
   "types": "index.d.ts",
   "typesVersions": {
     "<3.8": {
