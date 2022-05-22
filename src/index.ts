@@ -179,16 +179,18 @@ export interface RequestInfo {
 
 type Middleware = (request: Request, response: Response) => Promise<void>;
 
-const parseToArray = (arg: Object): Array<any> =>
-  Object.values(arg).map((e) =>
-    e === undefined || e === null
-      ? Array.isArray(e)
-        ? e.concat(['__arr__'])
-        : e
-      : typeof e === 'object'
-      ? parseToArray(e)
-      : e,
-  );
+const parseToArray = (arg: any): any =>
+  Array.isArray(arg)
+    ? arg.map(parseToArray).concat('__arr__')
+    : Object.values(arg).map((e) =>
+        e === undefined || e === null
+          ? Array.isArray(e)
+            ? (e as Array<any>).map(parseToArray)
+            : e
+          : typeof e === 'object'
+          ? parseToArray(e)
+          : e,
+      );
 
 /**
  * Middleware for express; takes an options object or function as input to
